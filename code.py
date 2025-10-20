@@ -1,32 +1,20 @@
-import board
+import time
+import circuitpython_gizmo
 import pwmio
-import digitalio
-from adafruit_motor import servo
-from adafruit_simplemath import map_range, constrain
-from circuitpython_gizmo import Gizmo
+import adafruit_motor.servo
 
-gizmo = Gizmo()
+gizmo = circuitpython_gizmo.Gizmo()
 
-pwm_freq = 50 # Hertz
-min_pulse = 1000 # milliseconds
-max_pulse = 2000 # milliseconds
-servo_range = 90  # degrees
-
-motor_val = 0.0
-
-motor = servo.ContinuousServo(
-    pwmio.PWMOut(gizmo.MOTOR_1, frequency=pwm_freq),
-    min_pulse=min_pulse,
-    max_pulse=max_pulse
+motor = adafruit_motor.servo.ContinuousServo(
+    pwmio.PWMOut(gizmo.MOTOR_1, frequency=50),
+    min_pulse=1000,
+    max_pulse=2000
 )
 
 while True:
-  builtin_led = digitalio.DigitalInOut(board.GP25)
-  builtin_led.direction = digitalio.Direction.OUTPUT
-  gizmo.refresh()
-
-  motor_val += 0.01
-  if motor_val > 1.0:
-    motor_val = -1.0
-    pass
-  motor_left.throttle = motor_val
+    gizmo.refresh()
+    if gizmo.buttons.a:
+        motor.throttle = 1.0
+    else:
+        motor.throttle = 0.0
+    time.sleep(0.01)
