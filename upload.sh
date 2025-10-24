@@ -11,6 +11,6 @@ fi
 echo "Making backups just in case..."
 rsync -rp --delete mnt/ backup # Backup just in case
 echo "Writing to device..."
-sudo rsync -rp --delete --exclude=.* --exclude=mnt --exclude=backup . mnt # Flash device
+sudo cp code.py mnt/code.py # Flash device
 echo "Done!"
 sudo umount mnt # Unmount device
