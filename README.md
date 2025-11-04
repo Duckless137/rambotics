@@ -4,6 +4,25 @@ It's in Python (booooo)
 I wish we did C 
 I like C 
 
+# How to setup
+PIN MAP:
+- Motor pin 1: Spinner
+- Motor pin 2: Conveyor
+- Motor pin 3: Left wheel
+- Motor pin 4: Right wheel
+
+- Servo pin 1: The Flipper (wow awesome name :3 )
+- Servo pin 2: The Claw
+- Servo pin 3: The Arm
+
+# How to use
+- Left joystick: Move
+- A: Toggle Spinner
+- Y: Toggle Conveyor
+- Dpad-X: Rotate Claw
+- Dpad-Y: Rotate Arm
+- Right trigger: Clamp down Claw (When fully pressed stays clamped until pressed again)
+
 # Pull requests
 Make a new branch please 
 Never commit directly to main
