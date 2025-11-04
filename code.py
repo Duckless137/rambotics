@@ -50,6 +50,10 @@ the_flipper.angle = 90
 
 the_claw = Servo(gizmo.SERVO_2)
 
+the_arm = Servo(gizmo.SERVO_3)
+arm_rate = 0.5
+arm_angle = 0.0
+the_arm.angle = 45
 
 
 def check_spinner():
@@ -94,11 +98,29 @@ def commit_flipper(): # No verb for flipper :(
     the_flipper.angle = int(flipper_angle) 
 
 def move_claw():
+    global the_claw
     if gizmo.axes.dpad_x == 254:
         the_claw.angle = 90
     if gizmo.axes.dpad_x == 0:
         the_claw.angle = 0
-    pass
+
+def move_arm():
+    global the_arm
+    global arm_angle
+    global arm_rate
+    if gizmo.axes.dpad_y == 254:
+        arm_angle += arm_rate
+        if arm_angle > 90.0:
+            arm_angle = 90.0
+    elif gizmo.axes.dpad_y == 0:
+        arm_angle -= arm_rate
+        if arm_angle < 0.0:
+            arm_angle = 0.0
+    else:
+        return
+    
+    print(arm_angle)
+    the_arm.angle = int(arm_angle)
 
 while True:
     gizmo.refresh()
@@ -117,4 +139,5 @@ while True:
 
     commit_flipper()
     move_claw()
+    move_arm()
     time.sleep(0.01)
