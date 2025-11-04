@@ -10,10 +10,9 @@ from circuitpython_gizmo import Gizmo
 pwm_freq = 50  # Hertz
 min_pulse = 1000  # milliseconds
 max_pulse = 2000  # milliseconds
-servo_range = 180  # degrees
+servo_range = 90  # degrees
 
-# the Gizmo object provides access to the data that is held by the field
-# management system and the gizmo system processor
+# the Gizmo object provides access to the data that is held by the field management system and the gizmo system processor
 gizmo = Gizmo()
 
 class Motor(servo.ContinuousServo):
@@ -44,9 +43,13 @@ motor_conveyor = Motor(gizmo.MOTOR_2)
 motor_left = Motor(gizmo.MOTOR_3)
 motor_right = Motor(gizmo.MOTOR_4)
 
-the_flipper = Servo(gizmo.SERVO_1) # Yeah I'm calling it a flipper fuck u 
+the_flipper = Servo(gizmo.SERVO_1) # Yeah I'm calling it a flipper
 flipper_angle = 0.0 
 flipper_rate = 0.8
+the_flipper.angle = 90
+
+the_claw = Servo(gizmo.SERVO_2)
+
 
 
 def check_spinner():
@@ -90,6 +93,12 @@ def commit_flipper(): # No verb for flipper :(
     # Actual variable is a float for precision
     the_flipper.angle = int(flipper_angle) 
 
+def move_claw():
+    if gizmo.axes.dpad_x == 254:
+        the_claw.angle = 90
+    if gizmo.axes.dpad_x == 0:
+        the_claw.angle = 0
+    pass
 
 while True:
     gizmo.refresh()
@@ -107,4 +116,5 @@ while True:
     motor_conveyor.throttle = int(conveyor_on) / 5
 
     commit_flipper()
-
+    move_claw()
+    time.sleep(0.01)
