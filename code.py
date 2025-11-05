@@ -48,7 +48,11 @@ flipper_angle = 0.0
 flipper_rate = 0.8
 the_flipper.angle = 90
 
-the_claw = Servo(gizmo.SERVO_2)
+the_claw_servo = Servo(gizmo.SERVO_2)
+
+the_claw_clamp = Servo(gizmo.SERVO_4)
+clamp_toggle = False
+clamp_held = False
 
 the_arm = Servo(gizmo.SERVO_3)
 arm_rate = 0.5
@@ -97,12 +101,28 @@ def commit_flipper(): # No verb for flipper :(
     # Actual variable is a float for precision
     the_flipper.angle = int(flipper_angle) 
 
-def move_claw():
-    global the_claw
+def handle_claw():
+    global the_claw_servo
+    global the_claw_clamp
+    global clamp_toggle
+    global clamp_held
+
     if gizmo.axes.dpad_x == 254:
-        the_claw.angle = 90
-    if gizmo.axes.dpad_x == 0:
-        the_claw.angle = 0
+        the_claw_servo.angle = 90
+    elif gizmo.axes.dpad_x == 0:
+        the_claw_servo.angle = 0
+
+    if gizmo.buttons.right_trigger > 0:
+        if not clamp_held:
+          clamp_toggle = not clamp_toggle
+          clamp_held = True
+    else:
+        clamp_held = False
+
+    if clamp_toggle:
+        the_claw_clamp.angle = 90
+    else:
+        the_claw_clamp.angle = gizmo.buttons.right_trigger * 90
 
 def move_arm():
     global the_arm
@@ -138,6 +158,6 @@ while True:
     motor_conveyor.throttle = int(conveyor_on) / 5
 
     commit_flipper()
-    move_claw()
+    handle_claw()
     move_arm()
     time.sleep(0.01)
