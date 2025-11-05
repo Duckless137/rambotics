@@ -48,16 +48,15 @@ flipper_angle = 0.0
 flipper_rate = 0.8
 the_flipper.angle = 90
 
-the_claw_servo = Servo(gizmo.SERVO_2)
-
-the_claw_clamp = Servo(gizmo.SERVO_4)
-clamp_toggle = False
-clamp_held = False
-
-the_arm = Servo(gizmo.SERVO_3)
+the_arm = Servo(gizmo.SERVO_2)
 arm_rate = 0.5
 arm_angle = 0.0
 the_arm.angle = 45
+
+the_claw_servo = Servo(gizmo.SERVO_3)
+the_claw_clamp = Servo(gizmo.SERVO_4)
+clamp_toggle = False
+clamp_held = False
 
 
 def check_spinner():
