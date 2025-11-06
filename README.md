@@ -12,8 +12,9 @@ PIN MAP:
 - Motor pin 4: Right wheel
 
 - Servo pin 1: The Flipper (wow awesome name :3 )
-- Servo pin 2: The Claw
-- Servo pin 3: The Arm
+- Servo pin 2: The Arm
+- Servo pin 3: The Claw Servo
+- Servo pin 4: The Claw Clamp
 
 # How to use
 - Left joystick: Move
