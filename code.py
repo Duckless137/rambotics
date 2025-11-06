@@ -36,17 +36,19 @@ spinner_on = False
 a_pressed = False
 motor_spinner = Motor(gizmo.MOTOR_1)
 
-conveyor_on: bool = False
-y_pressed: bool = False
-motor_conveyor = Motor(gizmo.MOTOR_2)
+# R.I.P
+# conveyor_on: bool = False
+# y_pressed: bool = False
+# motor_conveyor = Motor(gizmo.MOTOR_2)
 
 motor_left = Motor(gizmo.MOTOR_3)
 motor_right = Motor(gizmo.MOTOR_4)
 
-the_flipper = Servo(gizmo.SERVO_1) # Yeah I'm calling it a flipper
-flipper_angle = 0.0 
-flipper_rate = 0.8
-the_flipper.angle = 90
+# R.I.P
+# the_flipper = Servo(gizmo.SERVO_1) # Yeah I'm calling it a flipper
+# flipper_angle = 0.0 
+# flipper_rate = 0.8
+# the_flipper.angle = 90
 
 the_arm = Servo(gizmo.SERVO_2)
 arm_rate = 0.5
@@ -70,35 +72,34 @@ def check_spinner():
     else:
         a_pressed = False
 
-def check_conveyor():
-    if gizmo.buttons.y:
-        global y_pressed
-        global conveyor_on
-        if not y_pressed:
-            conveyor_on = not conveyor_on
-            print(f"Toggling conveyor (now {conveyor_on})")
-            y_pressed = True
-    else:
-        y_pressed = False
+# def check_conveyor():
+#    if gizmo.buttons.y:
+#        global y_pressed
+#        global conveyor_on
+#        if not y_pressed:
+#            conveyor_on = not conveyor_on
+#            print(f"Toggling conveyor (now {conveyor_on})")
+#            y_pressed = True
+#    else:
+#        y_pressed = False
 
-def commit_flipper(): # No verb for flipper :( 
-    global the_flipper
-    global flipper_angle
-    global flipper_rate
-
-    flipper_angle += flipper_rate
-    if flipper_rate > 0.0:
-        if flipper_angle >= 90.0:
-            flipper_angle = 90.0
-            flipper_rate *= -1
-    else:
-        if flipper_angle <= 0.0:
-            flipper_angle = 0.0
-            flipper_rate *= -1
-
-    # Angle must be converted to int, otherwise we get OOB err.
-    # Actual variable is a float for precision
-    the_flipper.angle = int(flipper_angle) 
+# def commit_flipper(): # No verb for flipper :( 
+#    global the_flipper
+#    global flipper_angle
+#    global flipper_rate
+#
+#    flipper_angle += flipper_rate
+#    if flipper_rate > 0.0:
+#        if flipper_angle >= 90.0:
+#            flipper_angle = 90.0
+#            flipper_rate *= -1 else:
+#        if flipper_angle <= 0.0:
+#            flipper_angle = 0.0
+#            flipper_rate *= -1
+#
+#    # Angle must be converted to int, otherwise we get OOB err.
+#    # Actual variable is a float for precision
+#    the_flipper.angle = int(flipper_angle) 
 
 def handle_claw():
     global the_claw_servo
@@ -153,10 +154,10 @@ while True:
     check_spinner()
     motor_spinner.throttle = int(spinner_on)
     
-    check_conveyor()
-    motor_conveyor.throttle = int(conveyor_on) / 5
+    # check_conveyor()
+    # motor_conveyor.throttle = int(conveyor_on) / 5
 
-    commit_flipper()
+    # commit_flipper()
     handle_claw()
     move_arm()
     time.sleep(0.01)
