@@ -7,11 +7,9 @@ I like C
 # How to setup
 PIN MAP:
 - Motor pin 1: Spinner
-- Motor pin 2: Conveyor
 - Motor pin 3: Left wheel
 - Motor pin 4: Right wheel
 
-- Servo pin 1: The Flipper (wow awesome name :3 )
 - Servo pin 2: The Arm
 - Servo pin 3: The Claw Servo
 - Servo pin 4: The Claw Clamp
@@ -19,7 +17,8 @@ PIN MAP:
 # How to use
 - Left joystick: Move
 - A: Toggle Spinner
-- Y: Toggle Conveyor
+- Right bumper: Increase spinner speed
+- Left bumper: Decrease spinner speed
 - Dpad-X: Rotate Claw
 - Dpad-Y: Rotate Arm
 - Right trigger: Clamp down Claw (When fully pressed stays clamped until pressed again)
