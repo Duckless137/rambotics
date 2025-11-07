@@ -33,8 +33,13 @@ class Servo(servo.Servo):
         ) 
 
 spinner_on = False
-a_pressed = False
+toggle_a = False
+toggle_left_bumper = False
+toggle_right_bumper = False
+spinner_speed = 60
+spinner_speed_change = 20
 motor_spinner = Motor(gizmo.MOTOR_1)
+motor_spinner.throttle = 0
 
 # R.I.P
 # conveyor_on: bool = False
@@ -62,15 +67,48 @@ clamp_held = False
 
 
 def check_spinner():
-    if gizmo.buttons.a:
-        global a_pressed
-        global spinner_on
-        if not a_pressed:
-            spinner_on = not spinner_on
-            print(f"Toggling spinner (now {spinner_on})")
-            a_pressed = True
+    global toggle_a
+    global toggle_left_bumper
+    global toggle_right_bumper
+    global spinner_on
+    global spinner_speed
+    global spinner_speed_change
+    needs_update = False
+    
+    if gizmo.buttons.left_shoulder:
+      if not toggle_left_bumper:
+          toggle_left_bumper = True
+          if (spinner_speed - spinner_speed_change) > 0:
+            spinner_speed -= spinner_speed_change
+            print(f"Spinner at {spinner_speed}% speed")
+            needs_update = True
     else:
-        a_pressed = False
+      toggle_left_bumper = False
+ 
+    if gizmo.buttons.right_shoulder:
+      if not toggle_right_bumper:
+          toggle_right_bumper = True
+          if (spinner_speed + spinner_speed_change) <= 100:
+            spinner_speed += spinner_speed_change
+            print(f"Spinner at {spinner_speed}% speed")
+            needs_update = True
+    else:
+      toggle_right_bumper = False
+
+    if gizmo.buttons.a:
+      if not toggle_a:
+          toggle_a = True
+          spinner_on = not spinner_on
+          needs_update = True
+    else:
+      toggle_a = False
+       
+    if needs_update:
+      if spinner_on:
+          motor_spinner.throttle = spinner_speed / -100
+      else:
+          motor_spinner.throttle = 0.0
+
 
 # def check_conveyor():
 #    if gizmo.buttons.y:
@@ -149,10 +187,9 @@ while True:
     speed = map_range(gizmo.axes.left_y, 0, 255, -1.0, 1.0)
     turning = map_range(gizmo.axes.left_x, 0, 255, -1.0, 1.0)
     motor_left.throttle = constrain( - speed + turning, -1.0, 1.0)
-    motor_right.throttle = constrain(speed + turning, -1.0, 1.0)
+    motor_right.throttle = constrain( - speed - turning, -1.0, 1.0)
 
     check_spinner()
-    motor_spinner.throttle = int(spinner_on)
     
     # check_conveyor()
     # motor_conveyor.throttle = int(conveyor_on) / 5
