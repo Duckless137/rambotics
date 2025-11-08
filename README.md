@@ -10,8 +10,8 @@ PIN MAP:
 - Motor pin 3: Left wheel
 - Motor pin 4: Right wheel
 
-- Servo pin 2: The Arm
-- Servo pin 3: The Claw Servo
+- Servo pin 1: The Arm
+- Servo pin 2: The Claw Servo
 - Servo pin 4: The Claw Clamp
 
 # How to use
