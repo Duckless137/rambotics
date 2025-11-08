@@ -34,6 +34,8 @@ class Servo(servo.Servo):
 
 spinner_on = False
 toggle_a = False
+toggle_b = False
+spinner_mult = -1
 toggle_left_bumper = False
 toggle_right_bumper = False
 spinner_speed = 60
@@ -56,10 +58,9 @@ motor_right = Motor(gizmo.MOTOR_4)
 # the_flipper.angle = 90
 
 the_arm = Motor(gizmo.MOTOR_2)
-arm_rate = 0.5
 the_arm.throttle = 0.0
 
-the_claw_servo = Servo(gizmo.SERVO_2)
+the_claw_servo = Servo(gizmo.SERVO_1)
 the_claw_clamp = Servo(gizmo.SERVO_4)
 clamp_toggle = False
 clamp_held = False
@@ -67,9 +68,11 @@ clamp_held = False
 
 def check_spinner():
     global toggle_a
+    global toggle_b
     global toggle_left_bumper
     global toggle_right_bumper
     global spinner_on
+    global spinner_mult
     global spinner_speed
     global spinner_speed_change
     needs_update = False
@@ -101,10 +104,19 @@ def check_spinner():
           needs_update = True
     else:
       toggle_a = False
-       
+ 
+    if gizmo.buttons.b:
+      if not toggle_b:
+          toggle_b = True
+          spinner_mult *= -1
+          needs_update = True
+          print("Reversing spinner")
+    else:
+      toggle_b = False
+             
     if needs_update:
       if spinner_on:
-          motor_spinner.throttle = spinner_speed / -100
+          motor_spinner.throttle = spinner_speed / 100 * spinner_mult
       else:
           motor_spinner.throttle = 0.0
 
@@ -166,12 +178,11 @@ def move_arm():
     global arm_angle
     global arm_rate
     if gizmo.axes.dpad_y == 254:
-        the_arm.throttle = arm_rate
+        the_arm.throttle = 0.55
     elif gizmo.axes.dpad_y == 0:
-        the_arm.throttle = -arm_rate
+        the_arm.throttle = -0.2
     else:
         the_arm.throttle = 0
-        return
     
 
 while True:
