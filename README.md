@@ -7,10 +7,10 @@ I like C
 # How to setup
 PIN MAP:
 - Motor pin 1: Spinner
+- Motor pin 2: The Arm
 - Motor pin 3: Left wheel
 - Motor pin 4: Right wheel
 
-- Servo pin 1: The Arm
 - Servo pin 2: The Claw Servo
 - Servo pin 4: The Claw Clamp
 

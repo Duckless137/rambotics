@@ -55,12 +55,11 @@ motor_right = Motor(gizmo.MOTOR_4)
 # flipper_rate = 0.8
 # the_flipper.angle = 90
 
-the_arm = Servo(gizmo.SERVO_2)
+the_arm = Motor(gizmo.MOTOR_2)
 arm_rate = 0.5
-arm_angle = 0.0
-the_arm.angle = 45
+the_arm.throttle = 0.0
 
-the_claw_servo = Servo(gizmo.SERVO_3)
+the_claw_servo = Servo(gizmo.SERVO_2)
 the_claw_clamp = Servo(gizmo.SERVO_4)
 clamp_toggle = False
 clamp_held = False
@@ -167,18 +166,13 @@ def move_arm():
     global arm_angle
     global arm_rate
     if gizmo.axes.dpad_y == 254:
-        arm_angle += arm_rate
-        if arm_angle > 90.0:
-            arm_angle = 90.0
+        the_arm.throttle = arm_rate
     elif gizmo.axes.dpad_y == 0:
-        arm_angle -= arm_rate
-        if arm_angle < 0.0:
-            arm_angle = 0.0
+        the_arm.throttle = -arm_rate
     else:
+        the_arm.throttle = 0
         return
     
-    print(arm_angle)
-    the_arm.angle = int(arm_angle)
 
 while True:
     gizmo.refresh()
