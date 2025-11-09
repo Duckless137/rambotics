@@ -62,8 +62,9 @@ the_arm.throttle = 0.0
 
 the_claw_servo = Servo(gizmo.SERVO_1)
 the_claw_clamp = Servo(gizmo.SERVO_4)
-clamp_toggle = False
-clamp_held = False
+clamp_angle = 90.0
+clamp_locked = False
+toggle_lock = False
 
 
 def check_spinner():
@@ -153,33 +154,39 @@ def check_spinner():
 def handle_claw():
     global the_claw_servo
     global the_claw_clamp
-    global clamp_toggle
-    global clamp_held
+    global clamp_angle
+    global clamp_locked
+    global toggle_lock
 
     if gizmo.axes.dpad_x == 254:
         the_claw_servo.angle = 90
     elif gizmo.axes.dpad_x == 0:
         the_claw_servo.angle = 0
 
-    if gizmo.buttons.right_trigger > 0:
-        if not clamp_held:
-          clamp_toggle = not clamp_toggle
-          clamp_held = True
+    if gizmo.buttons.y:
+      if not toggle_lock:
+          toggle_lock = True
+          clamp_locked = not clamp_locked
+          print("Locking clamp")
     else:
-        clamp_held = False
+      toggle_lock = False
+    
+    if clamp_locked:
+        return
 
-    if clamp_toggle:
-        the_claw_clamp.angle = 90
+    clamp_angle = gizmo.axes.right_y
+    if clamp_angle <= 5:
+      the_claw_clamp.angle = 0
     else:
-        the_claw_clamp.angle = gizmo.buttons.right_trigger * 90
+      the_claw_clamp.angle = int(clamp_angle * (90 / 255))
 
 def move_arm():
     global the_arm
     global arm_angle
     global arm_rate
-    if gizmo.axes.dpad_y == 254:
+    if gizmo.axes.dpad_y == 0:
         the_arm.throttle = 0.55
-    elif gizmo.axes.dpad_y == 0:
+    elif gizmo.axes.dpad_y == 254:
         the_arm.throttle = -0.2
     else:
         the_arm.throttle = 0
